@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+        function getData() {
+
+console.log('getting data...');
+
+// Get data from backend.
+$.ajax({
+    url: 'http://localhost:8080/academy/courses',
+    type: 'get',
+    success: function(data) {
+        console.log('data get success');
+        console.log(data);
+
+        $('#courses').text('');
+
+        var courseText = '';
+
+        $.each(data, function(index, value) {
+            console.log(value.title + ' - ' + value.level + ' - ' + value.teacher);
+            courseText = courseText + ' ' + value.title + ' - ' + value.level + ' - ' + value.teacher + '. /n ';
+        });
+
+        $('#courses').text(courseText);
+    }
+});
+
+}
+    </script>
+</head>
+<body>
+
+<h1>Courses</h1>
+
+
+<button onclick="getData()">Show All Courses!</button>
+<p id="courses">No data...</p>
+
+<a href="createcourse.html">Create a Course</a>
+
+</body>
+</html>

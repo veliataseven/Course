@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a Course</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+function postData() {
+
+if(!$("#inputTitle").val() || !$("#inputAuthor").val()) {
+    
+    $("#error").text("Some or all input fields have no value!");
+}
+else {
+    $("#error").text("");
+    
+    var titleFromInput = $("#inputTitle").val();
+    var levelFromInput = $("#inputLevel").val();
+    var teacherFromInput = $("#inputTeacher").val();
+    console.log('Title ingevoerd: ' + titleFromInput);
+    console.log('Level ingevoerd: ' + levelFromInput);
+    console.log('Level ingevoerd: ' + teacherFromInput);             
+
+    var course = { 
+        title : titleFromInput,
+        level : levelFromInput,
+        author : teacherFromInput
+    };
+    console.log(course);
+   
+    var courseJson = JSON.stringify(course);
+    console.log(courseJson);
+    
+    $.ajax({
+        url: 'http://localhost:8080/academy/course',
+        type: 'post',
+        data: courseJson,
+        contentType: "application/json",
+        success: function(data) {                    
+            console.log('data post success');
+          
+            $("#inputTitle").val('');
+            $("#inputLevel").val('');
+            $("#inputTeacher").val('');
+        }
+    });
+}            
+} 
+
+    </script>
+</head>
+<body>
+
+<h1>Create a Course!</h1>
+
+<label for="inputTitle">Title of Course</label></br>
+<input type="text" id="inputTitle" name="inputTitle">
+</br></br>
+<label for="inputLevel">Level of Course</label></br>
+<input type="text" id="inputLevel" name="inputLevel">
+</br></br>
+<label for="inputTeacher">Teacher of Course</label></br>
+<input type="text" id="inputTeacher" name="inputTeacher">
+</br></br>
+
+<p id="error" style="color: red;" ></p>
+
+<button onclick="postData()">Create Course!</button>
+</br></br>
+
+<a href="courses/courses.html">Go back to Courses page</a>
+</body>
+</html>
